@@ -289,11 +289,17 @@ write_basic_package_version_file(breakidConfigVersion.cmake
     COMPATIBILITY SameMinorVersion
 )
 
-# install(FILES
-#     "${CMAKE_CURRENT_BINARY_DIR}/breakidConfig.cmake"
-#     "${CMAKE_CURRENT_BINARY_DIR}/breakidConfigVersion.cmake"
-#     DESTINATION "${BREAKID_INSTALL_CMAKE_DIR}"
-# )
+message(STATUS "YAYYAYSYAYYAYAYYAYYAYAYAYAYYAY")
+message(STATUS "${CMAKE_CURRENT_BINARY_DIR}/breakidConfig.cmake")
+message(STATUS "${CMAKE_CURRENT_BINARY_DIR}/breakidConfigVersion.cmake")
+message(STATUS "${BREAKID_INSTALL_CMAKE_DIR}")
+message(STATUS "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${BREAKID_CONFIG_FILENAME}")
+
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/breakidConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/breakidConfigVersion.cmake"
+    DESTINATION "${BREAKID_INSTALL_CMAKE_DIR}"
+)
 
 # # Install the export set for use with the install-tree
 # install(EXPORT breakidTargets
@@ -301,20 +307,24 @@ write_basic_package_version_file(breakidConfigVersion.cmake
 #     NAMESPACE breakid::
 # )
 
-install(FILES
-    "${CMAKE_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${BREAKID_CONFIG_FILENAME}"
+# NOTE(Ibrahim):
+# BREAKID_CONFIG_FILENAME is empty ?
+
+# install(FILES
+#   "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${BREAKID_CONFIG_FILENAME}"
+#     DESTINATION "${BREAKID_INSTALL_CMAKE_DIR}"
+# )
+
+install(
+    EXPORT ${BREAKID_EXPORT_NAME}
     DESTINATION "${BREAKID_INSTALL_CMAKE_DIR}"
+    # NAMESPACE breakid::
 )
 
 install(
     TARGETS breakid
-    EXPORT ${BREAKID_EXPORT_NAME}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
-install(
-    EXPORT ${BREAKID_EXPORT_NAME}
-    DESTINATION "${BREAKID_INSTALL_CMAKE_DIR}"
-)
